@@ -1,0 +1,3 @@
+Passenger,Cessna 172,20,100,12000
+Fighter,Harrier,225,5000,5000000
+Trainer,T45,125,200,35
