@@ -29,17 +29,19 @@ public class AirField {
 	public void removeJet(int removeId) {
 		for (Jet i : jets) {
 			if (removeId == i.getId()) {
-				System.out.println("Removing..." + i);
+				System.out.println("TRANSPORTING JET TO ANOTHER AIRFIELD" + i);
 				jets.remove(i);
 				break;
 			}
-		}System.out.println("Jet removed");
+		}System.out.println("JET HAS BEEN SUCCESFULLY BEEN TRANSPORTED");
 	}
 
 	public void flyJets() {
+		System.out.println("JETS PREPARING FOR TAKE OFF...");
 		for (Jet i : jets) {
 			i.fly();
 		}
+		System.out.println("\nJETS HAVE LANDED BACK TO AIRFIELD FOR REFUELING");
 	}
 
 	public void fastestJet() {
@@ -53,7 +55,7 @@ public class AirField {
 				fastestJet = i.toString();
 			}
 		}
-		System.out.println("Displaying Fastest Jet....");
+		System.out.println("FASTEST JET IN AIRFIELD HAS BEEN DISPLAYED BELOW");
 		System.out.println(fastestJet);
 	}
 
@@ -68,12 +70,12 @@ public class AirField {
 				longestRange = i.toString();
 			}
 		}
-		System.out.println("Displaying Jet with longest Range...");
+		System.out.println("JET WITH LONGEST RANGE IN AIRFIELD HAS BEEN DISPLAYED BELOW");
 		System.out.println(longestRange);
 	}
 
 	public void loadCargo() {
-		System.out.println("Loading cargo...");
+		System.out.println("LOADING CARGO...");
 		for (Jet i : jets) {
 			if (i instanceof CargoPlane) {
 				System.out.println(i);
@@ -83,13 +85,14 @@ public class AirField {
 	}
 
 	public void dogFight() {
-		System.out.println("Fighter jets initializing DOGFIGHT!");
+		System.out.println("FIGHTERJETS PREPARING FOR DOG FIGHT!");
 		for (Jet i : jets) {
 			if (i instanceof FighterJet) {
 				System.out.println(i);
 				((FighterJet) i).fight();
 			}
 		}
+		System.out.println("\nDOGFIGHT OVER WITH MINOR DAMAGE TO JETS");
 	}
 
 }

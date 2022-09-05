@@ -24,11 +24,13 @@ public abstract class Jet {
 	
 	
 	public void fly() {
-		System.out.println(toString() + " Flied for " + (range / speed) );
+		double result = (range / speed) * 60;
+		System.out.println(toString() + "*Flied for " + Double.valueOf(String.format("%.2f", result)) + " Minutes*");
+		
 	}
 
 	public double getSpeedInMach() {
-		return 0;
+		return speed / 767.3;
 	}
 
 
