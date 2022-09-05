@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -90,39 +91,48 @@ public class JetsApplication {
 		case 9:
 			System.out.println("Thank you for using JetsApplication! Come back soon!");
 			return false;
-		default: 
+		default:
 			System.out.println("Invalid Entry! Please select a number on the MENU!");
 		}
 		return true;
 	}
 
 	public void jetCreator() {
-		System.out.println("Select the jet type you would like to add: ");
-		for (int i = 0; i < typesOfJets.length; i++) {
-			System.out.println((i + 1) + " " + typesOfJets[i]);
-		}
-		int userInput = input.nextInt();
-		String jetType = JetsApplication.typesOfJets[userInput - 1];
-
-		System.out.println("Please enter in model of jet: ");
-		String model = input.next();
-		System.out.println("Please enter in the speed in of jet in mph: ");
-		double speed = input.nextDouble();
-		System.out.println("Please enter in the range of jet in miles: ");
-		int range = input.nextInt();
-		System.out.println("Please enter in the price of the jet: ");
-		long price = input.nextLong();
-
 		Jet plane = null;
-		
-		if (jetType.equals("Cargo")) {
-			plane = new CargoPlane(model, speed, range, price);
-		}
-		if (jetType.equals("Fighter")) {
-			plane = new FighterJet(model, speed, range, price);
-		}
-		if (jetType.equals("Passenger")) {
-			plane = new PassengerPlane(model, speed, range, price);
+		boolean validInput = false;
+		while (!validInput) {
+			try {
+				System.out.println("Select the jet type you would like to add by entering in the number 1-3: ");
+				for (int i = 0; i < typesOfJets.length; i++) {
+					System.out.println((i + 1) + " " + typesOfJets[i]);
+				}
+				int userInput = input.nextInt();
+				String jetType = JetsApplication.typesOfJets[userInput - 1];
+				input.nextLine();
+
+				System.out.println("Please enter in model of jet: ");
+				String model = input.nextLine();
+				System.out.println("Please enter in the speed in of jet in mph: ");
+				double speed = input.nextDouble();
+				System.out.println("Please enter in the range of jet in miles: ");
+				int range = input.nextInt();
+				System.out.println("Please enter in the price of the jet: ");
+				long price = input.nextLong();
+
+				if (jetType.equals("Cargo")) {
+					plane = new CargoPlane(model, speed, range, price);
+				}
+				if (jetType.equals("Fighter")) {
+					plane = new FighterJet(model, speed, range, price);
+				}
+				if (jetType.equals("Passenger")) {
+					plane = new PassengerPlane(model, speed, range, price);
+				}
+				validInput = true;
+			} catch (InputMismatchException e) {
+				System.err.println("Invalid input, please try again!");
+				input.nextLine();
+			}
 		}
 
 		airField.addJet(plane, true);
