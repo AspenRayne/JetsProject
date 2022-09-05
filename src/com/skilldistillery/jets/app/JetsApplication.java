@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -36,10 +35,15 @@ public class JetsApplication {
 		boolean keepGoing = true;
 		while (keepGoing) {
 			displayUserMenu();
-			int choice = input.nextInt();
-			keepGoing = menuSelection(choice);
+			try {
+				int choice = input.nextInt();
+				keepGoing = menuSelection(choice);
+			}catch(Exception e){
+				System.err.println("Invalid entry, please try again.");
+				input.nextLine();
+			}
 		}
-
+		
 	}
 
 	private void displayUserMenu() {
@@ -57,6 +61,7 @@ public class JetsApplication {
 		System.out.println("| 9. Quit                  |");
 		System.out.println("|                          |");
 		System.out.println("============================");
+		System.out.println("Please select one of the options from the menu: ");
 	}
 
 	public boolean menuSelection(int choice) {
@@ -83,16 +88,25 @@ public class JetsApplication {
 			jetCreator();
 			break;
 		case 8:
-			System.out.println(airField);
-			System.out.println("Please enter in the ID of the jet you would like to remove");
-			int removeId = input.nextInt();
-			airField.removeJet(removeId);
+			boolean validInput = false;
+			while (!validInput) {
+				try {
+					System.out.println(airField);
+					System.out.print("Please enter in the ID of the jet you would like to remove: ");
+					int removeId = input.nextInt();
+					airField.removeJet(removeId);
+					validInput = true;
+				} catch (Exception e) {
+					System.err.println("Invalid entry, please try again.");
+				}
+			}
 			break;
 		case 9:
 			System.out.println("Thank you for using JetsApplication! Come back soon!");
 			return false;
 		default:
-			System.out.println("Invalid Entry! Please select a number on the MENU!");
+			System.err.println("Invalid Entry! Please select a number on the MENU!");
+
 		}
 		return true;
 	}
@@ -110,37 +124,26 @@ public class JetsApplication {
 				String jetType = JetsApplication.typesOfJets[userInput - 1];
 				input.nextLine();
 
-				System.out.println("Please enter in model of jet: ");
+				System.out.print("Please enter in model of jet: ");
 				String model = input.nextLine();
-				System.out.println("Please enter in the speed in of jet in mph: ");
+				System.out.print("Please enter in the speed in of jet in mph: ");
 				double speed = input.nextDouble();
-				System.out.println("Please enter in the range of jet in miles: ");
+				System.out.print("Please enter in the range of jet in miles: ");
 				int range = input.nextInt();
-				System.out.println("Please enter in the price of the jet: ");
+				System.out.print("Please enter in the price of the jet: ");
 				long price = input.nextLong();
 
-				if (jetType.equals("Cargo")) {
-					plane = new CargoPlane(model, speed, range, price);
-				}
-				if (jetType.equals("Fighter")) {
-					plane = new FighterJet(model, speed, range, price);
-				}
-				if (jetType.equals("Passenger")) {
-					plane = new PassengerPlane(model, speed, range, price);
-				}
+				instantiateJet(plane, jetType, model, speed, range, price, true);
 				validInput = true;
-			} catch (InputMismatchException e) {
+			} catch (Exception e) {
 				System.err.println("Invalid input, please try again!");
 				input.nextLine();
 			}
 		}
 
-		airField.addJet(plane, true);
-
 	}
 
 	public void readFile(List<String> aList) {
-		List<Jet> jet = new ArrayList<>();
 		try (BufferedReader bufIn = new BufferedReader(new FileReader("jets.txt"))) {
 			String names;
 			while ((names = bufIn.readLine()) != null) {
@@ -151,23 +154,27 @@ public class JetsApplication {
 				double speed = Double.parseDouble(jets[2]);
 				int range = Integer.parseInt(jets[3]);
 				long price = Long.parseLong(jets[4]);
-
-				if (jetType.equals("Cargo")) {
-					plane = new CargoPlane(model, speed, range, price);
-				}
-				if (jetType.equals("Fighter")) {
-					plane = new FighterJet(model, speed, range, price);
-				}
-				if (jetType.equals("Passenger")) {
-					plane = new PassengerPlane(model, speed, range, price);
-				}
-
-				airField.addJet(plane, false);
-
+				instantiateJet(plane, jetType, model, speed, range, price, false);
 			}
 		} catch (IOException e) {
 			System.err.println(e);
 		}
+	}
+
+	public void instantiateJet(Jet plane, String jetType, String model, double speed, int range, long price,
+			boolean printer) {
+
+		if (jetType.equals("Cargo")) {
+			plane = new CargoPlane(model, speed, range, price);
+		}
+		if (jetType.equals("Fighter")) {
+			plane = new FighterJet(model, speed, range, price);
+		}
+		if (jetType.equals("Passenger")) {
+			plane = new PassengerPlane(model, speed, range, price);
+		}
+		airField.addJet(plane, printer);
+
 	}
 
 }

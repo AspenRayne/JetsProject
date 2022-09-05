@@ -33,7 +33,7 @@ public class AirField {
 				jets.remove(i);
 				break;
 			}
-		}System.out.println("JET HAS BEEN SUCCESFULLY BEEN TRANSPORTED");
+		}System.out.println("JET HAS BEEN SUCCESFULLY TRANSPORTED");
 	}
 
 	public void flyJets() {
