@@ -22,7 +22,7 @@ common, keeping the code DRY.
 I also took advantage of interfaces to define the methods of unique types of jets.
 
 
-# Lessons Learned
+## Lessons Learned
 I learned how to use error handling with user input in a menu. This prevents the 
 program from breaking unexpectedly with user interaction.
 
@@ -41,5 +41,5 @@ Interface Classes
 - Does not implement logic into methods
 - Defines required methods that a class must implement
 
-# Technologies Used
+## Technologies Used
 Java, Eclipse, and Git.
